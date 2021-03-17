@@ -76,7 +76,7 @@ server <- function(input, output) {
     
   # generate bins based on input$bins from ui.R
   
-  logit <- function(x){ if(x>0 & x<1) return(log(x/(1-x))) else return(x)}
+  #logit <- function(x){ if(x>0 & x<1) return(log(x/(1-x))) else return(x)}
   expit <- function(x){ return(exp(x)/(1+exp(x)))}
   
   power2 <- reactive({input$pow
@@ -96,6 +96,7 @@ server <- function(input, output) {
   
   output$plotgraph1 = renderPlot({ y = yprime();plot(x, y, pch = 19, main = "Original")})
   output$plotgraph2 = renderPlot({
+    library(gtools)
     y = yprime()
     power <- power2()
     
