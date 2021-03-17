@@ -40,7 +40,7 @@ ui <- fluidPage(
                    value = 0),
       #                  animate = TRUE),
       numericInput("pow",
-                   "pow:",
+                   "pow: (works only for power transformation)",
                    #min = -10,
                    #max = 10,
                    value = 1),
@@ -81,10 +81,10 @@ server <- function(input, output) {
   yprime <- reactive({
     switch(input$ydata,
            "y1" = y,
-           "y2" = y^2,
-           "y3" = y^2 - 30,
-           "y4" = log(y),
-           "y5" = exp(y),
+           "y2" = exp(y),
+           "y3" = y^2,
+           "y4" = y^2 - 30,
+           "y5" = log(y),
            "y6" = 1/y
            #"y7" = expit(3*y - 6.5)
            )
@@ -92,6 +92,7 @@ server <- function(input, output) {
   
   output$plotgraph1 = renderPlot({ y = yprime();hist(y)})
   output$plotgraph2 = renderPlot({
+    require(gtools)
     y = yprime()
     power <- power2()
     

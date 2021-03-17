@@ -86,10 +86,10 @@ server <- function(input, output) {
   yprime <- reactive({
     switch(input$ydata,
            "y1" = y,
-           "y2" = log(y),
+           "y2" = exp(y),
            "y3" = y^2,
            "y4" = y^2 - 30,
-           "y5" = exp(y),
+           "y5" = log(y),
            "y6" = 1/y,
            "y7" = expit(3*y - 6.5))
   })
