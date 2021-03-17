@@ -41,7 +41,7 @@ ui <- fluidPage(
                    value = 0),
       #                  animate = TRUE),
       numericInput("pow",
-                   "pow:",
+                   "pow: (works only for power transformation)",
                    #min = -10,
                    #max = 10,
                    value = 1),
