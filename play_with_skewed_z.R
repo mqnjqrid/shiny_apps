@@ -19,14 +19,14 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       selectInput("ydata",
-                  label = "choose y data to transform:",
-                  choices = list("y1",
-                                 "y2",
-                                 "y3",
-                                 "y4",
-                                 "y5",
-                                 "y6"),
-                  selected = "y1"),
+                  label = "choose z data to transform:",
+                  choices = list("z1",
+                                 "z2",
+                                 "z3",
+                                 "z4",
+                                 "z5",
+                                 "z6"),
+                  selected = "z1"),
       numericInput("alpha",
                    "alpha:",
                    #min = -10,
@@ -70,39 +70,39 @@ server <- function(input, output) {
   # data
   x = rnorm(5000, 25, 10)
   epsilon = rnorm(5000, 0, 1)
-  y <- abs((10 + 0.5*x + epsilon)/10)
+  z <- abs((10 + 0.5*x + epsilon)/10)
   
   # generate bins based on input$bins from ui.R
   
   power2 <- reactive({input$pow
-    powpow<- function(y){(y*input$alpha + input$beta)^input$pow}
+    powpow<- function(z){(z*input$alpha + input$beta)^input$pow}
     return(powpow)})
   
-  yprime <- reactive({
+  zprime <- reactive({
     switch(input$ydata,
-           "y1" = y,
-           "y2" = exp(y),
-           "y3" = y^2,
-           "y4" = y^2 - 30,
-           "y5" = log(y),
-           "y6" = 1/y
+           "z1" = exp(z) - 10,
+           "z2" = exp(z),
+           "z3" = z^2,
+           "z4" = z^2 - 30,
+           "z5" = log(z),
+           "z6" = 1/z
            #"y7" = expit(3*y - 6.5)
            )
   })
   
-  output$plotgraph1 = renderPlot({ y = yprime();hist(y)})
+  output$plotgraph1 = renderPlot({ z = zprime();hist(z)})
   output$plotgraph2 = renderPlot({
     require(gtools)
-    y = yprime()
+    z = zprime()
     power <- power2()
     
     if(input$transform == "power"){
-      ytilde <- (y*input$alpha + input$beta)^input$pow
+      ztilde <- (z*input$alpha + input$beta)^input$pow
     }else{
-      ytilde <- getFunction(input$transform)(y*input$alpha + input$beta)
+      ztilde <- getFunction(input$transform)(z*input$alpha + input$beta)
     }
     
-    hist(ytilde, breaks = 12)
+    hist(ztilde, breaks = 12)
   })
 }
 
